@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Registration</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #4a90e2, #1458a0);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: #fff;
+      width: 380px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 30px 25px;
+    }
+
+    .container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #4a90e2;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #4a90e2;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #357abd;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .login-link a {
+      color: #4a90e2;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div class="container">
+    <h2>User Registration</h2>
+    <form action="{% url 'save-user' %}" method="POST">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" name="mobile" placeholder="Enter mobile number" required pattern="[0-9]{10}" />
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your Password"/>
+      </div>
+
+      
+
+      <div class="form-group">
+        <label for="role">User Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select Role</option>
+          {% comment %} <option value="admin">Admin</option>
+          <option value="manager">Manager</option>
+          <option value="mechanic">Mechanic</option>
+          <option value="staff">Staff</option> {% endcomment %}
+          {% for data in roles %}
+         <option value="{{data.key}}"> {{data.value}} </option>
+         {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn">Register</button>
+
+      <div class="login-link">
+        Already have an account? <a href="{% url 'user-login' %}">Login here</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

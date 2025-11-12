@@ -1,0 +1,148 @@
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Search Page</title>
+  <style>
+    /* Reset and global styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px 15px;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .search-bar button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Search results */
+    .results {
+      display: block;
+      margin-top:10px;
+    }
+
+    .user-card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .user-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .user-card h3 {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .user-card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Selected user details */
+    .user-details {
+      margin-top: 30px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-details h2 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .user-details p {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+  </style>
+</head>
+<body>
+    <form action="{% url 'search-courses' %}" method="GET">
+        {% csrf_token %}
+  <div class="container">
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search course by name..." id="searchInput" name='search-data' />
+      <button type="submit">Search</button>
+    </div>
+
+    <!-- Matching Results -->
+     {%for data in nameList %}
+    <div class="results">
+      <div class="user-card">
+        <h3>{{data.1}}</h3>
+        <p>Mobile: 9876543210</p>
+       <p><a href="{% url 'search-courses' %}?id={{data.0}}">view Course</p>
+      </div>
+     
+    </div>
+
+    {% endfor %}
+</form>
+
+{% comment %} {% if userData %}
+
+
+    <!-- Selected User Details -->
+    <div class="user-details">
+      <h2>Selected User Details</h2>
+      <p><strong>Name:</strong> {{userData.name}}</p>
+      <p><strong>Mobile:</strong> {{userData.mobile}}</p>
+      <p><strong>Role:</strong> {{.get_roles_display}}</p>
+      <p><strong>Password:</strong> ********</p>
+    </div>
+  {% endif %} {% endcomment %}
+  </div>
+</body>
+</html> 
