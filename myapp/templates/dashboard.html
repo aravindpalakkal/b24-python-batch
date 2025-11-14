@@ -85,16 +85,19 @@
 </head>
 <body>
   <header>
-    Welcome to the Dashboard
+    Welcome to the Dashboard  
   </header>
 
   <div class="container">
     <div class="grid">
+       {% if request.user.roles == 'ad'%} 
       <div class="card">
         <h3>Add Course</h3>
         <p>Create a new course and add details</p>
         <a href="#">Open</a>
       </div>
+      {% endif %} 
+     
 
       <div class="card">
         <h3>View Courses</h3>
@@ -102,11 +105,13 @@
         <a href="{% url 'search-courses' %}">Open</a>
       </div>
 
+       {% if request.user.roles == 'ad'%} 
       <div class="card">
         <h3>View Students</h3>
         <p>Check registered student details</p>
         <a href="{% url 'search-students' %}">Open</a>
       </div>
+      {% endif %}
 
       <div class="card">
         <h3>Profile</h3>
@@ -118,5 +123,7 @@
   {% include 'course_modal.html' %}
 
 </body>
+
+
 </html>
 

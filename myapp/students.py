@@ -33,3 +33,6 @@ def fn_getUsers(request):
         print(e)
     
     return render(request,'student_view.html')
+
+
+

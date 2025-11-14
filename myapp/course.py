@@ -30,45 +30,23 @@ def fn_getCourses(request):
     return render(request,'course_view.html')
     
 
-
-# def fetch_courses(req):
-#     try:
-#         # query = 'select * from course_tbl'
-#         # courses = list(Course.objects.all().values())
-#         courses = Course.objects.all()
-#         course_list = []
-
-#         ## seralising courses ie.. query set collection object to json data
-#         for course in courses:
-#             course_dict = {
-#                 'id':course.id,
-#                 'course':course.course_name
-#             }
-#             course_list.append(course_dict)
-
-#         print(courses)
-#         return JsonResponse({'status':200,'courses':course_list})
-#         # return JsonResponse({'status':200,'courses':json.dumps(courses)})
-    
-#     except Exception as e:
-#         print(e)
-#         return JsonResponse({'status':400})
-
-
-def fetch_courses(req):
+def fetch_courses(request):
     try:
-        # query = 'select * from course_tbl'
-        # courses = list(Course.objects.all().values())
-        courses = Course.objects.all()
+        if request.method == 'GET':
+            if 'id' in request.GET:
 
-        serializer = CourseSerializer(courses,many=True)
-       
-        return JsonResponse(serializer.data, status=200,safe=False)
-        # return JsonResponse({'status':200,'courses':json.dumps(courses)})
+                course_id = request.GET.get('cid')
+
+                course = Course.objects.get(id=course_id)
+                return render(request,'course_view.html',{'course':course})
+            
+            search_data = request.GET['search_data']
+            courses = Course.objects.filter(course_name__istartswith=search_data)
+            return render(request,'course_view.html',{'courseList':courses})
     
     except Exception as e:
         print(e)
-        return JsonResponse({'status':400})
+        return render(request,'course_view.html',{'message':str(e)})
     
 
 def getCourseById(courseId):

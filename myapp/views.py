@@ -2,9 +2,9 @@ from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render,redirect
 from . models import User
 
+from django.contrib.auth import authenticate,login,logout
+
 # Create your views here.
-
-
 
 def fn_saveUser(request):
     try:
@@ -19,13 +19,17 @@ def fn_saveUser(request):
             user_exist = User.objects.filter(mobile=mobile).exists()    
 
             if not user_exist:
-                user = User.objects.create(name=name,username=mobile,mobile=mobile,password = password, roles=role)
+                user = User.objects.create(name=name,username=mobile,mobile=mobile,password = password, roles=role,is_active=False)
+                user.set_password(password)
+                user.save()
                 return HttpResponse(f'user saved... user ID is ..  {user.id}')
             
             return HttpResponse('user already exist...')
         
         else:
-            return render(request,'register.html')
+            roles = [{'key':key,'value':value} for key,value in User.ROLE_CHOICES]
+            print(roles)
+            return render(request,'register.html',{'roles':roles})
     
     except Exception as e:
         print(e)
@@ -41,16 +45,22 @@ def fn_login(request):
             username = request.POST.get('mobile')
             password = request.POST.get('pin')
 
-            user = User.objects.get(mobile=username)
-
-            if user.password == password:
+            user = authenticate(request,username=username,password=password)
+            # print(user)
+            if user:
+                login(request,user)
+                # print(request.user.is_authenticated)
+                # print(request.user.roles)
                 return redirect('home')
+                               
             else:
-                return HttpResponse('login failed.. incorect username or password...!')
+                return render(request,'login.html',{'message':'login failed.. permission denied or incorect username or password...!'})
+                
         
         except Exception as e:
             print(e)
-            return HttpResponse('login failed.. incorect username or password...!')
+            return render(request,'login.html',{'message':'login failed.. incorect username or password...!'})
+                
     
     return render(request,'login.html')
 
@@ -58,3 +68,7 @@ def fn_login(request):
 
 def dashboard(req):
     return render(req,'dashboard.html')
+
+
+def user_logout(request):
+    logout(request)

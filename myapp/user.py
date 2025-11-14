@@ -48,4 +48,26 @@ class CreateUser(APIView):
         student.set_password(password)
         student.save()
         return student.id
-       
+
+
+
+
+    
+
+def updateUserStatus(request):
+    try:
+        if request.method == 'POST':
+
+            user_id = request.POST['user_id']
+            
+            user = User.objects.get(id=user_id)
+            if user.is_active:
+                user.is_active = False
+            else:
+                user.is_active = True
+
+            user.save() 
+        print()
+    
+    except Exception as e:
+        print(e)

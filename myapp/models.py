@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser,PermissionsMixin
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
 
 
-class User(AbstractUser,PermissionsMixin):
+class User(AbstractUser):
     ROLE_CHOICES = (
         ('stud','Student'),
         ('ad','admin')
@@ -19,6 +19,3 @@ class Course(models.Model):
     course_name = models.CharField(max_length=50)
 
 
-class Student(models.Model):
-    fk_user   = models.OneToOneField(User,on_delete=models.CASCADE)
-    fk_course = models.ForeignKey(Course,on_delete=models.CASCADE)

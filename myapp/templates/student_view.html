@@ -104,6 +104,16 @@
       color: #333;
       margin-bottom: 8px;
     }
+    .status_btn{
+      background-color:#e90b0b;
+      border:none;
+      padding:8px;
+      color:white;
+      font-size:12px;
+      float:right;
+      margin-right:45px;
+      border-radius:10px;
+    }
 
   </style>
 </head>
@@ -136,13 +146,30 @@
 
     <!-- Selected User Details -->
     <div class="user-details">
+       {% if userData.is_active %}
+      <button class="status_btn" id="deactivate" data-user-id="{{userData.id}}"> Deactivate</button>
+      {% else %}
+      <button class="status_btn" id="activate" data-user-id="{{userData.id}}">Activate</button>
+      {% endif %}
       <h2>Selected User Details</h2>
       <p><strong>Name:</strong> {{userData.name}}</p>
       <p><strong>Mobile:</strong> {{userData.mobile}}</p>
-      <p><strong>Role:</strong> {{.get_roles_display}}</p>
+      <p><strong>Role:</strong> {{userData.get_roles_display}}</p>
       <p><strong>Password:</strong> ********</p>
-    </div>
-  {% endif %}
+     
+   </div>
+   {% endif %}
   </div>
 </body>
+<script>
+  acitvate_btn   = document.getElementById('activate');
+  deacitvate_btn = document.getElementById('deactivate');
+
+  acitvate_btn.addEventListner('click',function(){
+
+    userID = this.dataset.userId;
+
+    fetcg
+  });
+</script>
 </html> 
