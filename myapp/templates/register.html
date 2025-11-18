@@ -128,8 +128,8 @@
           <option value="manager">Manager</option>
           <option value="mechanic">Mechanic</option>
           <option value="staff">Staff</option> {% endcomment %}
-          {% for data in roles %}
-         <option value="{{data.key}}"> {{data.value}} </option>
+          {% for role in roles %}
+         <option value="{{role.id}}"> {{role.role}} </option>
          {% endfor %}
         </select>
       </div>

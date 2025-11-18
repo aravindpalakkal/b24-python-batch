@@ -1,6 +1,6 @@
 
 from django.urls import path
-from . import views,course,students
+from . import views,course,students,user
 
 urlpatterns = [
     
@@ -11,7 +11,8 @@ urlpatterns = [
     path('view-students/',students.fn_getUsers,name='search-students'),
     path('view-courses/',course.fn_getCourses,name='search-courses'),
     path("create-course/",course.create_course,name="saveCourse"),
-    path('logout/',views.logout,name='logout'),
+    path('update-user-status/',user.updateUserStatus,name='update-user-status'),
+    
     # path("get-all-courses/",course.fetch_courses,name='get-all-courses'),
     # # path('get-course/<int:courseId>',course.getCourseById,name='get-course'),
     # path('update-course/',course.updateCourse,name='update-course'),
@@ -19,5 +20,8 @@ urlpatterns = [
 
 
     # path('create-user/',user.CreateUser.as_view(),name='create-user'),
+
+
+    path('logout/',views.logout,name='logout'),
 
 ]

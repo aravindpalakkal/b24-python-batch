@@ -1,6 +1,6 @@
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render,redirect
-from . models import User
+from . models import User,UserRole
 
 from django.contrib.auth import authenticate,login,logout
 
@@ -14,12 +14,15 @@ def fn_saveUser(request):
             name     = request.POST['name']
             mobile   = request.POST['mobile']
             password = request.POST['password']
-            role     = request.POST['role']
+            role_id     = request.POST['role'] ### role id from api
         
-            user_exist = User.objects.filter(mobile=mobile).exists()    
+            user_exist = User.objects.filter(mobile=mobile).exists()
+            
+            role = UserRole.objects.get(id=role_id)
+
 
             if not user_exist:
-                user = User.objects.create(name=name,username=mobile,mobile=mobile,password = password, roles=role,is_active=False)
+                user = User.objects.create(name=name,username=mobile,mobile=mobile,password = password, fk_role=role,is_active=False)
                 user.set_password(password)
                 user.save()
                 return HttpResponse(f'user saved... user ID is ..  {user.id}')
@@ -27,7 +30,8 @@ def fn_saveUser(request):
             return HttpResponse('user already exist...')
         
         else:
-            roles = [{'key':key,'value':value} for key,value in User.ROLE_CHOICES]
+            # roles = [{'key':key,'value':value} for key,value in User.ROLE_CHOICES]
+            roles = UserRole.objects.all()
             print(roles)
             return render(request,'register.html',{'roles':roles})
     

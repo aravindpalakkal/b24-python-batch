@@ -149,7 +149,7 @@
        {% if userData.is_active %}
       <button class="status_btn" id="deactivate" data-user-id="{{userData.id}}"> Deactivate</button>
       {% else %}
-      <button class="status_btn" id="activate" data-user-id="{{userData.id}}">Activate</button>
+      <button type="button" class="status_btn" id="activate" data-user-id="{{userData.id}}">Activate</button>
       {% endif %}
       <h2>Selected User Details</h2>
       <p><strong>Name:</strong> {{userData.name}}</p>
@@ -162,14 +162,34 @@
   </div>
 </body>
 <script>
-  acitvate_btn   = document.getElementById('activate');
+  activate_btn   = document.getElementById('activate');
   deacitvate_btn = document.getElementById('deactivate');
 
-  acitvate_btn.addEventListner('click',function(){
+  activate_btn.addEventListener('click',function(){
 
     userID = this.dataset.userId;
 
-    fetcg
+    alert(userID);
+
+    fetch('/update-user-status/',{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+           body: JSON.stringify({
+                user_id: userID,
+                
+            })
+          })
+          .then(response=>response.json())
+          .then(data=> {
+
+            console.log(data);
+            this.innerHTML = 'Deactivate';
+            
+
+          });
   });
 </script>
 </html> 

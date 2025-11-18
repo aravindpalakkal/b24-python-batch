@@ -14,9 +14,10 @@ def create_course(request):
 
         course = request.POST['course']
         print(course)
+        amount = request.POST['amount']
         # course_instance = Course(course_name=course)
         # course_instance.save()
-        Course.objects.create(course_name=course)
+        Course.objects.create(course_name=course,amount=amount)
         return redirect('home')
         # return JsonResponse({'status':200, 'message':'course saved','course':course_instance.id})
     except Exception as e:

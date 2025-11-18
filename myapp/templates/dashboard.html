@@ -90,7 +90,7 @@
 
   <div class="container">
     <div class="grid">
-       {% if request.user.roles == 'ad'%} 
+       {% if request.user.roles == 'admin'%} 
       <div class="card">
         <h3>Add Course</h3>
         <p>Create a new course and add details</p>
@@ -107,7 +107,7 @@
 
        {% if request.user.roles == 'ad'%} 
       <div class="card">
-        <h3>View Students</h3>
+        <h3>View Users</h3>
         <p>Check registered student details</p>
         <a href="{% url 'search-students' %}">Open</a>
       </div>
